@@ -8,20 +8,13 @@ import ToggleThemeButton from "./components/ToggleThemeButton";
 import { ThemeContext, ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
-  const { theme } = useContext(ThemeContext);
-
-  const appStyles = {
-    backgroundColor: theme === "dark" ? "black" : "white",
-    color: theme === "dark" ? "white" : "black",
-  };
-
   return (
-    <main style={appStyles}>
+    <div>
       <Header />
       <AddItem />
       <ToggleThemeButton />
       <TodoList />
-    </main>
+    </div>
   );
 }
 
