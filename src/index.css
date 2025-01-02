@@ -32,12 +32,12 @@ body {
   color: white;
 }
 
-body.dark-mode {
+.dark-mode {
   background-color: black;
   color: white;
 }
 
-body.light-mode {
+.light-mode {
   background-color: white;
   color: black;
 }

@@ -10,6 +10,8 @@ const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     document.body.className = theme + "-mode";
+    const taskInputArea = document.querySelector(".task-text");
+    taskInputArea.classList.add(theme + "-mode");
   }, [theme]);
 
   return (

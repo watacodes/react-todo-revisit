@@ -6,8 +6,15 @@ const TodoItem = ({ item, styles }) => {
 
   return (
     <li key={item.id}>
-      <input type="checkbox" onChange={() => toggleCompleted(item.task)} />
-      <label style={styles}>{item.task}</label>
+      <input
+        name="todo"
+        id="todo"
+        type="checkbox"
+        onChange={() => toggleCompleted(item.task)}
+      />
+      <label htmlFor="todo" style={styles}>
+        {item.task}
+      </label>
       <button onClick={() => deleteTodo(item.id)}>Delete</button>
     </li>
   );

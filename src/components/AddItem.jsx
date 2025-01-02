@@ -7,6 +7,7 @@ const AddItem = () => {
     <div>
       <input
         type="text"
+        className="task-text"
         value={newTodo}
         onChange={(e) => setNewTodo(e.target.value)}
         placeholder="Add new item"
