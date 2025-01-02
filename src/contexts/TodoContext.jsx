@@ -17,6 +17,9 @@ const TodoProvider = ({ children }) => {
     setNewTodo("");
   };
 
+  const deleteTodo = (todoId) => {
+    setTodoList((prevTodos) => prevTodos.filter((item) => item.id !== todoId));
+  };
   const toggleCompleted = (todo) => {
     setTodoList(
       todoList.map((item) =>
@@ -27,7 +30,14 @@ const TodoProvider = ({ children }) => {
 
   return (
     <TodoContext.Provider
-      value={{ addTodo, toggleCompleted, newTodo, todoList, setNewTodo }}
+      value={{
+        addTodo,
+        deleteTodo,
+        toggleCompleted,
+        newTodo,
+        todoList,
+        setNewTodo,
+      }}
     >
       {children}
     </TodoContext.Provider>
