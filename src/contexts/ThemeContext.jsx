@@ -1,24 +1,22 @@
-import { createContext, useContext, useEffect, useState } from "react";
+// import { createContext, useContext, useEffect, useState } from "react";
 
-const ThemeContext = createContext();
+// const ThemeContext = createContext();
 
-const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("dark");
-  const toggleTheme = () => {
-    setTheme(() => (theme === "dark" ? "light" : "dark"));
-  };
+// const ThemeProvider = ({ children }) => {
+//   const [theme, setTheme] = useState("dark");
+//   const toggleTheme = () => {
+//     setTheme(() => (theme === "dark" ? "light" : "dark"));
+//   };
 
-  useEffect(() => {
-    document.body.className = theme + "-mode";
-    const taskInputArea = document.querySelector(".task-text");
-    taskInputArea.classList.add(theme + "-mode");
-  }, [theme]);
+//   useEffect(() => {
+//     document.body.className = theme + "-mode";
+//   }, [theme]);
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-};
+//   return (
+//     <ThemeContext.Provider value={{ theme, toggleTheme }}>
+//       {children}
+//     </ThemeContext.Provider>
+//   );
+// };
 
-export { ThemeContext, ThemeProvider };
+// export { ThemeContext, ThemeProvider };
