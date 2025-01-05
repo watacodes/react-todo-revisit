@@ -1,15 +1,16 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import dateFormatter from "../utils/dateFormatter";
 import { arrayMove } from "@dnd-kit/sortable";
 
 const TodoContext = createContext();
 
 const TodoProvider = ({ children }) => {
-  const [newTodo, setNewTodo] = useState("");
   const [todoList, setTodoList] = useState(() => {
     const localItems = localStorage.getItem("todos");
     return localItems ? JSON.parse(localItems) : [];
   });
+  const [newTodo, setNewTodo] = useState("");
+  const [deletedTodoId, setDeletedTodoId] = useState([]);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todoList));
@@ -18,33 +19,38 @@ const TodoProvider = ({ children }) => {
   const addTodo = () => {
     if (newTodo.trim() === "") return;
     if (!todoList.includes(newTodo)) {
-      setTodoList((prevTodos) => [
-        ...prevTodos,
-        {
-          id: `${prevTodos.length + 1}-${newTodo}`,
-          task: newTodo,
-          completed: false,
-        },
-      ]);
+      setTodoList((prevTodos) => {
+        return [
+          ...prevTodos,
+          {
+            id: todoList[todoList.length - 1].id + 1,
+            task: newTodo,
+            completed: false,
+          },
+        ];
+      });
     }
     setNewTodo("");
   };
 
   const deleteTodo = (todoId) => {
     console.log("this is todoId ", todoId);
+    setDeletedTodoId((prevDeleted) => [...prevDeleted, todoId]);
+
     setTodoList((prevTodos) =>
       prevTodos.filter((item) => {
         return item.id !== todoId;
       })
     );
+    console.log("deleted ids: ", deletedTodoId);
   };
 
   const toggleCompleted = (todoId) => {
-    setTodoList(
-      todoList.map((todoItem) =>
-        todoItem.id === todoId
-          ? { ...todoItem, completed: !todoItem.completed }
-          : todoItem
+    console.log("toggleCompleted called with id:", todoId);
+
+    setTodoList((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
       )
     );
   };
@@ -52,9 +58,7 @@ const TodoProvider = ({ children }) => {
   const extractTodoPos = (id) => {
     // It takes id and find the old position in an original todoList array.
 
-    return todoList.findIndex(
-      (todo) => Number(todo.id.split("-")[0]) === Number(id.split("-")[0])
-    );
+    return todoList.findIndex((todo) => todo.id === id);
   };
 
   const handleDragEnd = (e) => {

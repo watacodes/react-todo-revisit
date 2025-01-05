@@ -11,7 +11,7 @@ const PendingTodos = () => {
 
   return (
     <section>
-      <ul className="flex-col w-1/3 p-2 ml-4 min-h-screen bg-slate-200 rounded-lg">
+      <ul className="flex-col w-1/3 p-2 overflow-auto ml-4 min-h-screen bg-slate-200 rounded-lg">
         <h2 className="text-blue-600 font-bold text-2xl text-center">
           Pending
         </h2>

@@ -6,9 +6,7 @@ import App from "./App.jsx";
 import { TodoProvider } from "./contexts/TodoContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <TodoProvider>
-      <App />
-    </TodoProvider>
-  </StrictMode>
+  <TodoProvider>
+    <App />
+  </TodoProvider>
 );
