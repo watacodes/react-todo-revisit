@@ -1,9 +1,13 @@
 const Header = () => {
   return (
-    <h1 className="py-8 mt-10 font-bold flex place-self-center text-3xl font">
-      Minimalistic React To-do App
-    </h1>
-  );
-};
+    <nav className="w-full mb-20 flex justify-between sticky">
+      <h1 className="text-3xl"> React Kanban Board</h1>
+      <ul className="flex gap-10 mr-10">
+        <li>About</li>
+        <li>Tutorial</li>
+      </ul>
+    </nav>
+  )
+}
 
-export default Header;
+export default Header

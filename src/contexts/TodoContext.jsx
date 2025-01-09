@@ -1,5 +1,4 @@
 import { createContext, useCallback, useEffect, useState } from "react";
-import dateFormatter from "../utils/dateFormatter";
 import { arrayMove } from "@dnd-kit/sortable";
 
 const TodoContext = createContext();
@@ -18,14 +17,15 @@ const TodoProvider = ({ children }) => {
 
   const addTodo = () => {
     if (newTodo.trim() === "") return;
-    if (!todoList.includes(newTodo)) {
+    if (!todoList.some((todo) => todo.task === newTodo)) {
       setTodoList((prevTodos) => {
         return [
           ...prevTodos,
           {
-            id: todoList[todoList.length - 1].id + 1,
+            column: 1,
+            id: todoList.length ? todoList[todoList.length - 1].id + 1 : 1,
             task: newTodo,
-            completed: false,
+            status: "pending",
           },
         ];
       });
@@ -34,7 +34,6 @@ const TodoProvider = ({ children }) => {
   };
 
   const deleteTodo = (todoId) => {
-    console.log("this is todoId ", todoId);
     setDeletedTodoId((prevDeleted) => [...prevDeleted, todoId]);
 
     setTodoList((prevTodos) =>
@@ -42,28 +41,46 @@ const TodoProvider = ({ children }) => {
         return item.id !== todoId;
       })
     );
-    console.log("deleted ids: ", deletedTodoId);
   };
 
-  const toggleCompleted = (todoId) => {
-    console.log("toggleCompleted called with id:", todoId);
+  const convertStatusToColumn = (todo) => {
+    let col;
+    console.log("todo:", todo);
+
+    // TODO: Fix the logic
+    if (todo.status === "in-progress") {
+      col = 2;
+    } else if (todo.status === "completed") {
+      col = 3;
+    } else {
+      col = 1;
+    }
+    return col;
+  };
+
+  const handleStatusChange = ({ id, status }) => {
+    console.log("todoid: ", id);
+    console.log("todoStatus: ", status);
 
     setTodoList((prevTodos) =>
       prevTodos.map((todo) =>
-        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
+        todo.id === id
+          ? {
+              ...todo,
+              status: status,
+              column: convertStatusToColumn(todo),
+            }
+          : todo
       )
     );
   };
 
-  const extractTodoPos = (id) => {
-    // It takes id and find the old position in an original todoList array.
-
-    return todoList.findIndex((todo) => todo.id === id);
-  };
+  const extractTodoPos = (id) => todoList.findIndex((todo) => todo.id === id);
 
   const handleDragEnd = (e) => {
     const { active, over } = e;
     if (active.id === over.id) return;
+
     setTodoList((todos) => {
       const initialPos = extractTodoPos(active.id);
       const newPos = extractTodoPos(over.id);
@@ -76,11 +93,11 @@ const TodoProvider = ({ children }) => {
       value={{
         addTodo,
         deleteTodo,
-        toggleCompleted,
         newTodo,
         todoList,
         setNewTodo,
         handleDragEnd,
+        handleStatusChange,
       }}
     >
       {children}
